@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./echarts.min.js"></script>
+  <style>
+    h3 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h3>Осциллограмма пачки из трёх импульсов</h3>
+  <div id="oscillogram" style="width: 100%;height: 600px;"></div>
+
+  <h3 style="text-align: center;">Спектр сигнала</h3>
+  <div id="spectr" style="width: 100%;height: 600px;"></div>
+
+  <script type="text/javascript">
+
+    const baseOption = {
+      xAxis: {
+        type: 'category',
+      },
+      yAxis: {
+        type: 'value',
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      dataZoom: [
+        { type: 'inside', start: 0, end: Number.POSITIVE_INFINITY },
+        { start: 0, end: 10 },
+      ],
+    };
+
+    const T = 420;
+    const w = 2 * Math.PI / T;
+    const A1 = 4;
+    const A2 = 3;
+    const A3 = 5;
+    const te = 210;
+    const amplitudes = [A1, A2, A3];
+
+    (function() {
+      const myChart = echarts.init(document.getElementById('oscillogram'));
+      const data = [];
+      amplitudes.forEach((amplitude, i) => {
+        for (let j = 0; j < T; ++j) {
+          let xAxis = i * T + j;
+          // x(t) = A * e (-t / tэ)
+          let yAxis = amplitude * Math.exp(-j / te);
+
+          data.push([xAxis, yAxis]);
+        }
+      });
+
+      const option = {
+        ...baseOption,
+        series: [{
+          data,
+          type: 'line',
+        }],
+      };
+      myChart.setOption(option);
+    }());
+
+    (function() {
+      const myChart = echarts.init(document.getElementById('spectr'));
+
+      const option = {
+        ...baseOption,
+        series: [{
+          data: [],
+          type: 'line',
+        }],
+      };
+      myChart.setOption(option);
+    }());
+  </script>
+</body>
+</html>
