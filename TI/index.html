@@ -12,10 +12,10 @@
   </style>
 </head>
 <body>
-  <h3>Осциллограмма пачки из трёх импульсов</h3>
+  <h3>Осциллограмма пачки из трёх импульсов 21 вариант</h3>
   <div id="oscillogram" style="width: 100%;height: 600px;"></div>
 
-  <h3 style="text-align: center;">Спектр сигнала</h3>
+  <h3 style="text-align: center;">Осциллограмма пачки из трёх импульсов 24 вариант</h3>
   <div id="spectr" style="width: 100%;height: 600px;"></div>
 
   <script type="text/javascript">
@@ -70,10 +70,28 @@
     (function() {
       const myChart = echarts.init(document.getElementById('spectr'));
 
+      const T = 480;
+      const A1 = 24;
+      const A2 = 3;
+      const A3 = 5;
+      const te = 240;
+      const amplitudes = [A1, A2, A3];
+
+      const data = [];
+
+      amplitudes.forEach((amplitude, i) => {
+        for (let j = 0; j < T; ++j) {
+          let xAxis = i * T + j;
+          let yAxis = amplitude * Math.exp(-1/2 * Math.pow(j / te, 2));
+
+          data.push([xAxis, yAxis]);
+        }
+      });
+
       const option = {
         ...baseOption,
         series: [{
-          data: [],
+          data,
           type: 'line',
         }],
       };
