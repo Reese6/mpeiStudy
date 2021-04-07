@@ -86,7 +86,6 @@
         refForIntervals[i] = setInterval(() => {
           el.style.transform = `rotate(${degs[i]}deg)`;
           degs[i] = degs[i] >= 360 ? 0 : degs[i] + 1;
-          console.log(100 / ((value + 1) * (Math.pow(i + 1, 2))))
         }, 500 / ((value + 1) * (Math.pow(i + 1, 2))));
       });
       input.value = value;
