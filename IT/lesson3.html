@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+    body {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+    }
+    .label {
+      font-size: 24px;
+      font-weight: bold;
+      margin-right: 7px;
+    }
+    .active {
+      text-transform: uppercase;
+    }
+    #input {
+      height: 39px;
+      width: 300px;
+    }
+    #animate-text {
+      font-weight: bold;
+      font-size: 28px;
+      transition: color 0.2s linear;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <label class="label">Значение строки: </label>
+    <input value="пример текста" id="input" type="text" />
+    <span></span>
+    <div style="position: relative;">
+      <div id="animate-text"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    const input = document.getElementById('input');
+    const animateText = document.getElementById('animate-text');
+
+    let value = input.value;
+    let count = 0;
+    let hue = 0;
+
+    const onChangeInput = (e) => {
+      value = e.target.value.toLowerCase();
+    };
+
+    input.addEventListener('input', onChangeInput);
+
+    setInterval(() => {
+      const words = value.split('');
+      let result = '';
+
+      words.forEach((el, i) => {
+        result += `<span class=${i === count ? 'active' : ''}>${el}</span>`;
+      });
+      count = count === words.length - 1 ? 0 : count + 1;
+      animateText.innerHTML = result;
+
+      animateText.style.color = `hsl(${hue}, 100%, 50%)`;
+      hue = hue === 360 ? 0 : hue + 12;
+    }, 100);
+  </script>
+</body>
+</html>
