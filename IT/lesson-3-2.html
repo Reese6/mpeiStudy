@@ -80,13 +80,14 @@
     input.addEventListener('input', (e) => start(e.target.value));
 
     const start = (value) => {
-      let deg = 0;
+      let degs = [0, 0, 0];
       refForIntervals.forEach((id) => clearInterval(id));
       balls.forEach((el, i) => {
         refForIntervals[i] = setInterval(() => {
-          el.style.transform = `rotate(${deg}deg)`;
-          deg = deg >= 360 ? 0 : deg + 5;
-        }, 150 / ((value + 1) * (Math.pow(i + 1, 2))));
+          el.style.transform = `rotate(${degs[i]}deg)`;
+          degs[i] = degs[i] >= 360 ? 0 : degs[i] + 1;
+          console.log(100 / ((value + 1) * (Math.pow(i + 1, 2))))
+        }, 500 / ((value + 1) * (Math.pow(i + 1, 2))));
       });
       input.value = value;
     };
