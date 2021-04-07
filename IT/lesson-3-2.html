@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .container {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .group {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .container-ball {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+    }
+    .ball {
+      position: absolute;
+    }
+    .ball-1 {
+      width: 300px;
+      height: 150px;
+      top: 0;
+      left: 0;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      border: 10px solid red;
+      border-bottom: none;
+    }
+    .ball-2 {
+      width: 280px;
+      height: 140px;
+      bottom: 10px;
+      left: 10px;
+      border-radius: 0 0 50% 50% / 0 0 100% 100%;
+      border: 10px solid green;
+      border-top: none;
+    }
+    .ball-3 {
+      width: 130px;
+      height: 260px;
+      top: 20px;
+      right: 20px;
+      border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+      border: 10px solid yellow;
+      border-left: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="group">
+    <label>Скорость</label>
+    <input type="range" id="input" name="input" min="0" max="5" value="2">
+  </div>
+  <div class="container">
+    <div class="container-ball">
+      <div class="ball ball-1"></div>
+    </div>
+    <div class="container-ball">
+      <div class="ball ball-2"></div>
+    </div>
+    <div class="container-ball">
+      <div class="ball ball-3"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    const input = document.getElementById('input');
+    const balls = document.querySelectorAll('.container-ball');
+    let refForIntervals = [];
+
+    input.addEventListener('input', (e) => start(e.target.value));
+
+    const start = (value) => {
+      let deg = 0;
+      refForIntervals.forEach((id) => clearInterval(id));
+      balls.forEach((el, i) => {
+        refForIntervals[i] = setInterval(() => {
+          el.style.transform = `rotate(${deg}deg)`;
+          deg = deg >= 360 ? 0 : deg + 5;
+        }, 150 / ((value + 1) * (i + 1)));
+      });
+      input.value = value;
+    };
+    start(input.value);
+  </script>
+</body>
+</html>
