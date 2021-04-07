@@ -21,7 +21,6 @@
       width: 200px;
       height: 200px;
       position: relative;
-      /* transition: transform 0.1s linear; */
     }
     .triangle::after {
       content: '';
@@ -59,13 +58,11 @@
       let deg = 0;
       if (refForInterval !== undefined) clearInterval(refForInterval);
       refForInterval = setInterval(() => {
-        console.log('object', refForInterval)
         triangles.forEach((el) => {
           el.style.transform = `rotateY(${deg}deg)`;
         });
         deg = deg >= 360 ? 0 : deg + 5;
       }, 250 / (value + 1));
-      console.log(refForInterval)
       input.value = value;
     };
     start(input.value);
