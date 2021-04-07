@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .container {
+      text-align: center;
+      max-width: 890px;
+      margin: 0 auto;
+    }
+    .group {
+      margin-bottom: 40px;
+    }
+    .triangle {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      /* transition: transform 0.1s linear; */
+    }
+    .triangle::after {
+      content: '';
+      position: absolute;
+      left: 0px;
+      border: 100px solid transparent;
+      border-bottom: 200px solid yellow;
+    }
+    .container-trangle {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="group">
+      <label>Скорость</label>
+      <input type="range" id="input" name="input" min="0" max="5" value="2">
+    </div>
+    <div class="triangle" style="margin: 0 auto 100px;"></div>
+    <div class="container-trangle">
+      <div class="triangle"></div>
+      <div class="triangle"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    const input = document.getElementById('input');
+    const triangles = document.querySelectorAll('.triangle');
+    let refForInterval;
+
+    input.addEventListener('input', (e) => start(e.target.value));
+
+    const start = (value) => {
+      let deg = 0;
+      if (refForInterval !== undefined) clearInterval(refForInterval);
+      refForInterval = setInterval(() => {
+        console.log('object', refForInterval)
+        triangles.forEach((el) => {
+          el.style.transform = `rotateY(${deg}deg)`;
+        });
+        deg = deg >= 360 ? 0 : deg + 5;
+      }, 250 / (value + 1));
+      console.log(refForInterval)
+      input.value = value;
+    };
+    start(input.value);
+  </script>
+</body>
+</html>
