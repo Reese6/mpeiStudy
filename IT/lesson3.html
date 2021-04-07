@@ -74,8 +74,8 @@
       words.forEach((el, i) => {
         result += `<span class=${i === count ? 'active' : ''}>${el}</span>`;
       });
-      count = count === words.length - 1 ? 0 : count + 1;
       animateText.innerHTML = result;
+      count = count >= words.length ? 0 : count + 1;
 
       animateText.style.color = `hsl(${hue}, 100%, 50%)`;
       hue = hue === 360 ? 0 : hue + 12;
