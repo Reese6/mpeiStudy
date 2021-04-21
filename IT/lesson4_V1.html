@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #canvas {
+      width: 400px;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script type="text/javascript">
+    const days = [
+      'ВС',
+      'ПН',
+      'ВТ',
+      'СР',
+      'ЧТ',
+      'ПТ',
+      'СБ'
+    ];
+    const r1 = 200;
+    const r2 = 190;
+    window.addEventListener('load', () => {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.translate(r1, r1);
+      draw(ctx);
+      setInterval(() => draw(ctx), 1000);
+    });
+    function draw(ctx) {
+      const time = new Date();
+      const hours = time.getHours();
+      const minutes = time.getMinutes();
+      const seconds = time.getSeconds();
+
+      ctx.clearRect(0, 0, r1 * 2, r1 * 2);
+
+      const primaryColor = '#d6d680';
+      const defaultColor = '#4a4a4a'
+      const bgColor = '#fff';
+
+      ctx.strokeStyle = defaultColor;
+
+      ctx.beginPath();
+      ctx.fillStyle = primaryColor;
+      ctx.arc(0, 0, r1, 0, Math.PI * 2);
+      ctx.fill()
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.fillStyle = bgColor;
+      ctx.arc(0, 0, r2, 0, Math.PI * 2);
+      ctx.fill()
+      ctx.closePath();
+      
+
+      ctx.font = "24px arial";
+      ctx.fillStyle = defaultColor;
+      ctx.textBaseline="middle";
+      ctx.textAlign="center";
+      for(let num = 1; num < 13; num++){
+        const rNumbers = r1 -30;
+        const ang = num * Math.PI / 6;
+        ctx.rotate(ang);
+        ctx.translate(0, -rNumbers);
+        ctx.rotate(-ang);
+        ctx.fillText(num.toString(), 0, 0);
+        ctx.rotate(ang);
+        ctx.translate(0, rNumbers);
+        ctx.rotate(-ang);
+      }
+
+      ctx.font = "14px arial";
+
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.rect(30, -15, 30, 30);
+      ctx.fillText(days[time.getDay()], 45, 0);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.rect(60, -15, 30, 30);
+      ctx.fillText(time.getDate(), 75, 0);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.rect(90, -15, 30, 30);
+      ctx.fillText(time.getMonth() + 1, 105, 0);
+      ctx.stroke();
+
+      function drawHand(pos, length, width) {
+        ctx.beginPath();
+        ctx.lineWidth = width;
+        ctx.lineCap = "round";
+        ctx.moveTo(0,0);
+        ctx.rotate(pos);
+        ctx.lineTo(0, -length);
+        ctx.stroke();
+        ctx.rotate(-pos);
+      }
+      const hour = (hours * Math.PI / 6) +
+        (minutes * Math.PI / (6 * 60)) +
+        (seconds * Math.PI / (360 * 60));
+      drawHand(hour, 140, 12);
+
+      const minute = (minutes * Math.PI / 30) + (seconds * Math.PI / (30 * 60));
+      drawHand(minute, 160, 7);
+
+      const second = seconds * Math.PI / 30;
+      drawHand(second, 180, 4);
+
+      ctx.beginPath();
+      ctx.fillStyle = primaryColor;
+      ctx.arc(0, 0, 20, 0, Math.PI * 2);
+      ctx.fill()
+      ctx.closePath();
+    }
+  </script>
+</body>
+</html>
